@@ -45,4 +45,5 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.leanback)
+    implementation(libs.glide)
 }

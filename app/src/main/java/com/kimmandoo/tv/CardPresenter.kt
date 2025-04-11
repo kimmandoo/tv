@@ -7,6 +7,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CardPresenter : Presenter() {
@@ -36,8 +39,23 @@ class CardPresenter : Presenter() {
         with((holder as CustomViewHolder).cardView) {
             titleText = movie.title
             contentText = movie.studio
+            cardType = ImageCardView.CARD_TYPE_INFO_OVER
             setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
-            mainImage = holder.defaultCardImage
+            Glide.with(context)
+                .load(movie.imageUri)
+                .error(holder.defaultCardImage)
+                .into(object : CustomTarget<Drawable>() {
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        mainImage = resource
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        mainImage = holder.defaultCardImage
+                    }
+                })
         }
         holder.movie = movie
     }

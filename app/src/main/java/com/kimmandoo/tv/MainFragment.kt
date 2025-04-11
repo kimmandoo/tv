@@ -45,7 +45,14 @@ class MainFragment : BrowseSupportFragment() {
         val cardPresenter = CardPresenter()
         val cardRowAdapter = ArrayObjectAdapter(cardPresenter)
         repeat(10) { idx ->
-            cardRowAdapter.add(Movie(idx.toLong(), "Movie $idx", "Studio $idx"))
+            cardRowAdapter.add(
+                Movie(
+                    idx.toLong(),
+                    "Movie $idx",
+                    "Studio $idx",
+                    imageUri = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQszAySd5NzSxVsfOR6ZllimOYiz0KrOEhgCw&s"
+                )
+            )
         }
         rowsAdapter.add(ListRow(cardPresenterHeader, cardRowAdapter))
 

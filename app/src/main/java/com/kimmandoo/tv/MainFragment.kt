@@ -11,7 +11,7 @@ import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
 
-@RequiresApi(Build.VERSION_CODES.M)
+@RequiresApi(Build.VERSION_CODES.O)
 class MainFragment : BrowseSupportFragment() {
 
     private lateinit var rowsAdapter: ArrayObjectAdapter
@@ -39,6 +39,16 @@ class MainFragment : BrowseSupportFragment() {
             gridRowAdapter.add("Item $idx")
         }
         rowsAdapter.add(ListRow(gridItemPresenterHeader, gridRowAdapter))
+
+
+        val cardPresenterHeader = HeaderItem(1, "CardPresenter")
+        val cardPresenter = CardPresenter()
+        val cardRowAdapter = ArrayObjectAdapter(cardPresenter)
+        repeat(10) { idx ->
+            cardRowAdapter.add(Movie(idx.toLong(), "Movie $idx", "Studio $idx"))
+        }
+        rowsAdapter.add(ListRow(cardPresenterHeader, cardRowAdapter))
+
         adapter = rowsAdapter
     }
 }

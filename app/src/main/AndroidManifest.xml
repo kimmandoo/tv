@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -15,12 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TV">
         <activity
+            android:name=".DetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TV" />
+        <activity
             android:name=".MainActivity"
             android:banner="@drawable/banner"
             android:exported="true"
-            android:theme="@style/Theme.TV"
             android:icon="@drawable/banner"
-            android:logo="@drawable/banner">
+            android:logo="@drawable/banner"
+            android:theme="@style/Theme.TV">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

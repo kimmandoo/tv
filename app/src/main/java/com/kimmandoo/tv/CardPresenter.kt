@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
-@RequiresApi(Build.VERSION_CODES.O)
 class CardPresenter : Presenter() {
 
     inner class CustomViewHolder(view: ImageCardView) : Presenter.ViewHolder(view) {
@@ -20,6 +19,7 @@ class CardPresenter : Presenter() {
         val defaultCardImage: Drawable? = ContextCompat.getDrawable(view.context, R.drawable.movie)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder? {
         val context = parent!!.context
         val cardView = ImageCardView(context).apply {

@@ -69,7 +69,7 @@ class GlideBackgroundManager(
         // Glide를 사용해 thread-safe하게 이미지 로드
         try {
             Glide.with(context)
-                .asBitmap()
+                .asBitmap() // CustomTarget에 넣으려면 bitmap으로 처리해야됨
                 .load(uri)
                 .override(metrics.widthPixels, metrics.heightPixels)
                 .centerCrop()

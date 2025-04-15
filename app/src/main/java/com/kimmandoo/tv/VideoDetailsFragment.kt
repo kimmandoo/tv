@@ -1,6 +1,7 @@
 package com.kimmandoo.tv
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -9,7 +10,6 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.DetailsSupportFragment
-import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
 import androidx.leanback.widget.Action
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.ClassPresenterSelector
@@ -19,9 +19,11 @@ import androidx.leanback.widget.FullWidthDetailsOverviewRowPresenter
 import androidx.leanback.widget.HeaderItem
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.ListRowPresenter
+import androidx.leanback.widget.OnActionClickedListener
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.SparseArrayObjectAdapter
 import com.bumptech.glide.Glide
+import com.kimmandoo.tv.part7.PlaybackOverlayActivity
 import java.io.IOException
 
 private const val TAG = "VideoDetailsFragment"
@@ -50,12 +52,15 @@ class VideoDetailsFragment : DetailsSupportFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            selectedMovie =
-                requireActivity().intent.getSerializableExtra(MOVIE, Movie::class.java) as Movie
-        } // intent로 값 받아오기
+        val activity = requireActivity()
+        selectedMovie = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // intent로 값 받아오기
+            activity.intent.getSerializableExtra(MOVIE, Movie::class.java) as Movie
+        } else {
+            activity.intent.getSerializableExtra(MOVIE) as Movie
+        }
         detailsRowBuilderTask =
-            DetailsRowBuilderTask(requireActivity(), selectedMovie, fwdorPresenter)
+            DetailsRowBuilderTask(activity, selectedMovie, fwdorPresenter)
 //        detailsRowBuilderTask =
 //            DetailsRowBuilderTask(requireActivity(), selectedMovie, dorPresenter)
         detailsRowBuilderTask.execute()
@@ -108,13 +113,33 @@ class VideoDetailsFragment : DetailsSupportFragment() {
         @Deprecated("Deprecated in Java")
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onPostExecute(row: DetailsOverviewRow) {
-            // 1st row: DetailsOverviewRow
-            val sparseArrayObjectAdapter = SparseArrayObjectAdapter().apply {
+            val sparseArrayObjectAdapter = SparseArrayObjectAdapter()
+            sparseArrayObjectAdapter.set(0, Action(ACTION_PLAY_VIDEO, "Play Video"))
+
+            sparseArrayObjectAdapter.apply {
                 repeat(10) { i ->
-                    set(i, Action(i.toLong(), "label1", "label2"))
+                    set(i + 1, Action(i.toLong(), "label1", "label2"))
                 }
             }
             row.actionsAdapter = sparseArrayObjectAdapter
+            fwdorPresenter.onActionClickedListener = object : OnActionClickedListener {
+                override fun onActionClicked(action: Action?) {
+                    action?.let {
+                        if (action.id == ACTION_PLAY_VIDEO) {
+                            Log.d(TAG, "onActionClicked: ${action.id}")
+                            val intent = Intent(
+                                requireContext(),
+                                PlaybackOverlayActivity::class.java
+                            ).apply {
+                                putExtra(MOVIE, selectedMovie)
+                                putExtra("shouldStart", true)
+                            }
+                            startActivity(intent)
+                        }
+                    }
+                }
+            }
+
 
             // 2nd row: ListRow
             val listRowAdapter = ArrayObjectAdapter(CardPresenter()).apply {
@@ -168,5 +193,6 @@ class VideoDetailsFragment : DetailsSupportFragment() {
     companion object {
         const val DETAIL_THUMB_WIDTH = 274
         const val DETAIL_THUMB_HEIGHT = 274
+        const val ACTION_PLAY_VIDEO = 1L
     }
 }

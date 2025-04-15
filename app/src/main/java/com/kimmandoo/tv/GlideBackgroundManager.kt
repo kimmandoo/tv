@@ -135,6 +135,6 @@ class GlideBackgroundManager(
 
     companion object {
         private val DEFAULT_BACKGROUND_RES_ID = R.drawable.default_background
-        private val BACKGROUND_UPDATE_DELAY = 500L
+        private const val BACKGROUND_UPDATE_DELAY = 500L
     }
 }

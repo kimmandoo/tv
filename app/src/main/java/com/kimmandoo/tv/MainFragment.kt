@@ -55,6 +55,7 @@ class MainFragment : BrowseSupportFragment() {
         repeat(10) { idx ->
             gridRowAdapter.add("Item $idx")
         }
+        gridRowAdapter.add("ErrorFragment")
         rowsAdapter.add(ListRow(gridItemPresenterHeader, gridRowAdapter))
 
 
@@ -135,11 +136,22 @@ class MainFragment : BrowseSupportFragment() {
         ) {
             // itemView 클릭하면 나옴
             item?.let {
-                val movie = it as Movie
-                Log.d(TAG, "Item: " + item.toString())
-                val intent = Intent(requireContext(), DetailsActivity::class.java)
-                intent.putExtra(MOVIE, movie)
-                requireActivity().startActivity(intent)
+                when (it) {
+                    is Movie -> {
+                        val movie = it as Movie
+                        Log.d(TAG, "Item: " + item.toString())
+                        val intent = Intent(requireContext(), DetailsActivity::class.java)
+                        intent.putExtra(MOVIE, movie)
+                        requireActivity().startActivity(intent)
+                    }
+
+                    is String -> {
+                        if (item == "ErrorFragment") {
+                            val intent = Intent(requireContext(), ErrorActivity::class.java)
+                            requireActivity().startActivity(intent)
+                        }
+                    }
+                }
             }
         }
     }

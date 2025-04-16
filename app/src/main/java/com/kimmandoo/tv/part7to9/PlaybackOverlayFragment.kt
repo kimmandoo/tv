@@ -25,6 +25,7 @@ import com.kimmandoo.tv.MOVIE
 import com.kimmandoo.tv.Movie
 import com.kimmandoo.tv.Utils
 import kotlinx.coroutines.Runnable
+import kotlin.math.max
 
 
 class PlaybackOverlayFragment : PlaybackSupportFragment() {
@@ -50,7 +51,7 @@ class PlaybackOverlayFragment : PlaybackSupportFragment() {
     private var handler: Handler? = null
     private var runnable: Runnable? = null
     private var currentItem: Int = 0
-    private val items = mutableListOf<Movie>()
+    private lateinit var items: List<Movie>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +61,7 @@ class PlaybackOverlayFragment : PlaybackSupportFragment() {
         handler = Handler(Looper.getMainLooper())
         isFadingEnabled = false
 
-//        items = MovieProvider.getMovieItem()
+        items = movieList
         currentItem = selectedMovie.id.toInt() - 1
         setUpRows()
     }
@@ -231,15 +232,15 @@ class PlaybackOverlayFragment : PlaybackSupportFragment() {
             notifyChanged(playPauseAction)
         }
         val currentTime = (requireActivity() as PlaybackOverlayActivity).pos
-        playbackControlsRow.currentPosition = currentTime.toLong()
-        playbackControlsRow.bufferedPosition = currentTime.toLong() + SIMULATED_BUFFERED_TIME
+        playbackControlsRow.currentTime = currentTime
+        playbackControlsRow.bufferedProgress = currentTime + SIMULATED_BUFFERED_TIME
     }
 
     private fun getUpdatePeriod(): Int {
         if (view == null || playbackControlsRow.totalTime <= 0) {
             return DEFAULT_UPDATE_PERIOD
         }
-        return UPDATE_PERIOD.coerceAtLeast(playbackControlsRow.getTotalTime() / requireView().width)
+        return max(UPDATE_PERIOD, playbackControlsRow.totalTime / requireView().width)
     }
 
     private fun startProgressAutomation() {
@@ -273,15 +274,15 @@ class PlaybackOverlayFragment : PlaybackSupportFragment() {
     private fun fastForward() {
         (requireActivity() as PlaybackOverlayActivity).fastForward()
         val currentTime = (requireActivity() as PlaybackOverlayActivity).getPosition()
-        playbackControlsRow.currentPosition = currentTime.toLong()
-        playbackControlsRow.bufferedPosition = (currentTime + SIMULATED_BUFFERED_TIME).toLong()
+        playbackControlsRow.currentTime = currentTime
+        playbackControlsRow.bufferedProgress = currentTime + SIMULATED_BUFFERED_TIME
     }
 
     private fun rewind() {
         (requireActivity() as PlaybackOverlayActivity).rewind()
         val currentTime = (requireActivity() as PlaybackOverlayActivity).getPosition()
-        playbackControlsRow.currentPosition = currentTime.toLong()
-        playbackControlsRow.bufferedPosition = (currentTime + SIMULATED_BUFFERED_TIME).toLong()
+        playbackControlsRow.currentTime = currentTime
+        playbackControlsRow.bufferedProgress = currentTime + SIMULATED_BUFFERED_TIME
     }
 
     private fun next(autoPlay: Boolean) {
@@ -324,15 +325,13 @@ class PlaybackOverlayFragment : PlaybackSupportFragment() {
 
     private fun updatePlaybackRow(currentItem: Int) {
         if (playbackControlsRow.item != null) {
-            val item = playbackControlsRow.item as Movie
-            val curItem = item.copy(
-                title = items[currentItem].title,
-                studio = items[currentItem].title,
-            )
+            val movie = playbackControlsRow.item as Movie
+            movie.title = items[currentItem].title
+            movie.studio = items[currentItem].studio
             rowAdapter.notifyArrayItemRangeChanged(0, 1)
-            val duration = Utils.getDuration(items[currentItem].videoUrl)
+            val duration = Utils.getDuration(items[currentItem].videoUrl).toInt()
             Log.d(TAG, "updatePlaybackRow: $duration + ${items[currentItem].videoUrl}")
-            playbackControlsRow.totalTime = duration.toInt()
+            playbackControlsRow.totalTime = duration
             playbackControlsRow.currentTime = 0
             playbackControlsRow.bufferedProgress = 0
         }

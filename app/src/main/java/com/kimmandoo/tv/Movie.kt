@@ -9,5 +9,5 @@ data class Movie(
     val imageUri: String?,
     val description: String? = null,
     val cardImageUrl: String? = null,
-//    val videoUrl: String? = null,
+    val videoUrl: String? = null,
 ) : Serializable

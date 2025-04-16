@@ -8,18 +8,13 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
         android:layout_gravity="center" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/playback_controls_fragment"
-        android:name="com.kimmandoo.tv.part7.PlaybackOverlayFragment"
+        android:name="com.kimmandoo.tv.part7to9.PlaybackOverlayFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".part7.PlaybackOverlayActivity" />
+        tools:context=".part7to9.PlaybackOverlayActivity" />
 
 </FrameLayout>

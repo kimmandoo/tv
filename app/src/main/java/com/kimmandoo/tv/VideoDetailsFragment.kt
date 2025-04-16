@@ -23,7 +23,7 @@ import androidx.leanback.widget.OnActionClickedListener
 import androidx.leanback.widget.Presenter
 import androidx.leanback.widget.SparseArrayObjectAdapter
 import com.bumptech.glide.Glide
-import com.kimmandoo.tv.part7.PlaybackOverlayActivity
+import com.kimmandoo.tv.part7to9.PlaybackOverlayActivity
 import java.io.IOException
 
 private const val TAG = "VideoDetailsFragment"

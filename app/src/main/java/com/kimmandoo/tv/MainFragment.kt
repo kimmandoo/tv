@@ -70,7 +70,10 @@ class MainFragment : BrowseSupportFragment() {
                             idx.toLong(),
                             "Movie $idx",
                             "Studio $idx",
-                            imageUri = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQszAySd5NzSxVsfOR6ZllimOYiz0KrOEhgCw&s"
+                            imageUri = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQszAySd5NzSxVsfOR6ZllimOYiz0KrOEhgCw&s",
+                            cardImageUrl = "https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg",
+                            // videoView는 m3u8포맷을 지원하지않는다.
+                            videoUrl = "https://media.githubusercontent.com/media/Fraunhofer-IIS/mpegh-test-content/main/TRI_Fileset_17_514H_D1_D2_D3_O1_24bit1080p50.mp4"
                         )
                     )
                 }
@@ -81,7 +84,9 @@ class MainFragment : BrowseSupportFragment() {
                             idx.toLong(),
                             "Movie $idx",
                             "Studio $idx",
-                            imageUri = "https://t4.ftcdn.net/jpg/05/78/60/99/360_F_578609973_kGyUqmJ2Gl9wGqag78ciyDbUFaB2hdU5.jpg"
+                            imageUri = "https://t4.ftcdn.net/jpg/05/78/60/99/360_F_578609973_kGyUqmJ2Gl9wGqag78ciyDbUFaB2hdU5.jpg",
+                            cardImageUrl = "https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg",
+                            videoUrl = "https://media.githubusercontent.com/media/Fraunhofer-IIS/mpegh-test-content/main/TRI_Fileset_17_514H_D1_D2_D3_O1_24bit1080p50.mp4"
                         )
                     )
                 }
@@ -92,7 +97,9 @@ class MainFragment : BrowseSupportFragment() {
                             idx.toLong(),
                             "title: $idx",
                             "Studio $idx",
-                            imageUri = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjStS_8E0EjFPkUmCuOHBnr8o2C2jiX-D8_Q&s"
+                            imageUri = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjStS_8E0EjFPkUmCuOHBnr8o2C2jiX-D8_Q&s",
+                            cardImageUrl = "https://www.alleycat.org/wp-content/uploads/2019/03/FELV-cat.jpg",
+                            videoUrl = "https://media.githubusercontent.com/media/Fraunhofer-IIS/mpegh-test-content/main/TRI_Fileset_17_514H_D1_D2_D3_O1_24bit1080p50.mp4"
                         )
                     )
                 }

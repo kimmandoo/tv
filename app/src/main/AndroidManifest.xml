@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TV">
         <activity
-            android:name=".part7.PlaybackOverlayActivity"
+            android:name=".part7to9.PlaybackOverlayActivity"
             android:exported="false"
             android:theme="@style/Theme.TV" />
         <activity
